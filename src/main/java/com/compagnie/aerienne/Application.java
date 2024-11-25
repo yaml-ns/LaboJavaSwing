@@ -1,9 +1,9 @@
 package com.compagnie.aerienne;
 
+import com.compagnie.aerienne.interface_graphique.AppColors;
 import com.compagnie.aerienne.interface_graphique.InterfacePrincipale;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 
 public class Application {
@@ -15,7 +15,7 @@ public class Application {
                 InterfacePrincipale view = new InterfacePrincipale();
                 view.getRootPane().putClientProperty(
                         "JRootPane.titleBarBackground",
-                        new Color(24, 24, 51)
+                        AppColors.BG_MEDIUM
                 );
                 view.setVisible(true);
             } catch (IOException e) {

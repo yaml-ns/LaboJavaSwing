@@ -1,5 +1,7 @@
 package com.compagnie.aerienne.interface_graphique.composants.table;
 
+import com.compagnie.aerienne.interface_graphique.AppColors;
+
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -45,17 +47,17 @@ public class FilterForm extends JPanel {
 
     private void initForm(){
 
-        setBackground(new Color(17, 17, 33));
+        setBackground(AppColors.BG_DARK);
         setBorder(new CompoundBorder(
-                new LineBorder(new Color(28, 28, 51)),
+                new LineBorder(AppColors.BG_LIGHT),
                 new EmptyBorder(10,10,10,10)
         ));
         resetButton = new JButton("Réinitialiser");
-        resetButton.setBackground(new Color(28, 28, 51));
-        idVolField.setBackground(new Color(28, 28, 51));
-        destinationField.setBackground(new Color(28, 28, 51));
-        datedField.setBackground(new Color(28, 28, 51));
-        resevField.setBackground(new Color(28, 28, 51));
+        resetButton.setBackground(AppColors.BG_LIGHT);
+        idVolField.setBackground(AppColors.BG_LIGHT);
+        destinationField.setBackground(AppColors.BG_LIGHT);
+        datedField.setBackground(AppColors.BG_LIGHT);
+        resevField.setBackground(AppColors.BG_LIGHT);
 
         setLayout(new GridLayout(3, 4, 5, 5));
         add(new JLabel("ID Vol :"));

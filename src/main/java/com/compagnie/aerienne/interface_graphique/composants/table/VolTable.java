@@ -1,5 +1,6 @@
 package com.compagnie.aerienne.interface_graphique.composants.table;
 
+import com.compagnie.aerienne.interface_graphique.AppColors;
 import com.compagnie.aerienne.interface_graphique.InterfacePrincipale;
 import com.compagnie.aerienne.interface_graphique.composants.FormulaireVol;
 import com.compagnie.aerienne.interface_graphique.composants.InfoPanel;
@@ -48,13 +49,13 @@ public class VolTable{
     public JPanel getTable(){
 
         JPanel tablePanel = new JPanel(new BorderLayout());
-        tablePanel.setBackground(new Color(28, 28, 51));
+        tablePanel.setBackground(AppColors.BG_LIGHT);
         JScrollPane sp = new JScrollPane(table,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        sp.setBackground(new Color(28, 28, 51));
-        sp.setBorder(BorderFactory.createLineBorder(new Color(24, 24, 51)));
+        sp.setBackground(AppColors.BG_LIGHT);
+        sp.setBorder(BorderFactory.createLineBorder(AppColors.BG_MEDIUM));
         sp.setBorder(new EmptyBorder(10,0,0,0));
         tablePanel.add(filters,BorderLayout.NORTH);
         tablePanel.add(sp,BorderLayout.CENTER);
@@ -69,11 +70,11 @@ public class VolTable{
         this.table.setShowGrid(false);
         this.table.setShowVerticalLines(false);
         this.table.setFocusable(false);
-        this.table.setBackground(new Color(17, 17, 33));
-        this.table.setSelectionBackground(new Color(28, 28, 51));
+        this.table.setBackground(AppColors.BG_DARK);
+        this.table.setSelectionBackground(AppColors.BG_LIGHT);
 
         JTableHeader header = this.table.getTableHeader();
-        header.setBackground(new Color(17, 17, 33));
+        header.setBackground(AppColors.BG_DARK);
     }
 
     private void performActions() {

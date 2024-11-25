@@ -20,7 +20,12 @@ public class InterfacePrincipale extends JFrame {
     GestionVolService volManager;
     VolTable volTable;
     public InterfacePrincipale() throws IOException {
+        volManager = new GestionVolService();
+        initialiserInterface();
+        initialiserLesComposants();
+    }
 
+    private void initialiserInterface(){
         setTitle("Gestion des Vols");
         setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,14 +34,11 @@ public class InterfacePrincipale extends JFrame {
                 .getImage()
         );
         setLocationRelativeTo(null);
-
-        volManager = new GestionVolService();
-       initialiserLesComposants();
     }
     private void initialiserLesComposants() throws IOException {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(new Color(28, 28, 51));
+        mainPanel.setBackground(AppColors.BG_MEDIUM);
 
         volManager = new GestionVolService();
         List<Vol> liste = volManager.getAll();
@@ -50,7 +52,7 @@ public class InterfacePrincipale extends JFrame {
 
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
-        centerPanel.setBackground(new Color(28, 28, 51));
+        centerPanel.setBackground(AppColors.BG_LIGHT);
         centerPanel.add(volTable.getTable(),BorderLayout.CENTER);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
@@ -62,7 +64,7 @@ public class InterfacePrincipale extends JFrame {
         add(mainPanel);
     }
 
-    public void rafraichirTable(List<Vol> listeActualisee) {
-        volTable.updateData(listeActualisee);
+    public void rafraichirTable(List<Vol> nouvelleListe) {
+        volTable.updateData(nouvelleListe);
     }
 }

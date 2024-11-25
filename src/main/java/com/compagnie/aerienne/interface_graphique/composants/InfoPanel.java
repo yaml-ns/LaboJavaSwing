@@ -1,5 +1,6 @@
 package com.compagnie.aerienne.interface_graphique.composants;
 
+import com.compagnie.aerienne.interface_graphique.AppColors;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ public class InfoPanel extends JPanel {
     private static InfoPanel instance;
     JLabel operationResult = new JLabel();
     public InfoPanel(){
-        setBackground(new Color(28, 28, 51));
+        setBackground(AppColors.BG_LIGHT);
         add(this.operationResult,BorderLayout.CENTER);
 
     }
@@ -33,7 +34,7 @@ public class InfoPanel extends JPanel {
         operationResult.setText(message);
         if (type == messageType.SUCCESS){
             operationResult.setBorder(new CompoundBorder(
-                    new MatteBorder(0,0,1,0,new Color(131,183,0)),
+                    new MatteBorder(0,0,1,0,AppColors.BG_SUCCESS),
                     new EmptyBorder(3,0,3,0)
             ));
 
@@ -41,7 +42,7 @@ public class InfoPanel extends JPanel {
             operationResult.setIconTextGap(5);
         }else {
             operationResult.setBorder(new CompoundBorder(
-                    new MatteBorder(0,0,1,0,new Color(105, 0,0)),
+                    new MatteBorder(0,0,1,0,AppColors.BG_DANGER),
                     new EmptyBorder(3,0,3,0)
             ));
 

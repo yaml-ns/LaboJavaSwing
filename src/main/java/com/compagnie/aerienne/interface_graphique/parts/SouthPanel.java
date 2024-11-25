@@ -1,5 +1,6 @@
 package com.compagnie.aerienne.interface_graphique.parts;
 
+import com.compagnie.aerienne.interface_graphique.AppColors;
 import com.compagnie.aerienne.interface_graphique.composants.InfoPanel;
 import com.compagnie.aerienne.modele.Vol;
 
@@ -20,7 +21,7 @@ public class SouthPanel extends JPanel {
         return instance;
     }
     public SouthPanel(){
-        setBackground(new Color(21, 21, 38));
+        setBackground(AppColors.BG_MEDIUM);
         add(copyright);
         add(totalVols);
     }

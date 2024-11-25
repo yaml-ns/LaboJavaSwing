@@ -1,6 +1,7 @@
 package com.compagnie.aerienne.interface_graphique.composants.model;
 
 
+import com.compagnie.aerienne.interface_graphique.AppColors;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import javax.swing.*;
@@ -28,8 +29,8 @@ public class ActionButtonEditor extends AbstractCellEditor implements TableCellE
         btnUpdate.setIcon(new FlatSVGIcon("icons/edit.svg"));
         btnDelete.setIcon(new FlatSVGIcon("icons/trash.svg"));
 
-        btnUpdate.setBackground(new Color(29, 29, 70));
-        btnDelete.setBackground(new Color(100, 1, 1));
+        btnUpdate.setBackground(AppColors.BG_MEDIUM);
+        btnDelete.setBackground(AppColors.BG_DANGER);
 
         btnUpdate.setFocusable(false);
         btnDelete.setFocusable(false);

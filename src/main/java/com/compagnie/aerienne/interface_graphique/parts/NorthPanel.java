@@ -1,5 +1,6 @@
 package com.compagnie.aerienne.interface_graphique.parts;
 
+import com.compagnie.aerienne.interface_graphique.AppColors;
 import com.compagnie.aerienne.interface_graphique.composants.BoutonAjouter;
 import com.compagnie.aerienne.interface_graphique.composants.FormulaireVol;
 import com.compagnie.aerienne.interface_graphique.composants.InfoPanel;
@@ -13,7 +14,7 @@ public class NorthPanel extends JPanel {
     public NorthPanel(FormulaireVol formulaireAjout){
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 10));
-        setBackground(new Color(28, 28, 51));
+        setBackground(AppColors.BG_LIGHT);
 
         BoutonAjouter btnAjouter = new BoutonAjouter();
 
