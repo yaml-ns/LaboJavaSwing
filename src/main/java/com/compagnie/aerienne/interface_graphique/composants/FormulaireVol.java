@@ -1,6 +1,7 @@
 package com.compagnie.aerienne.interface_graphique.composants;
 
 import com.compagnie.aerienne.Application;
+import com.compagnie.aerienne.interface_graphique.AppColors;
 import com.compagnie.aerienne.interface_graphique.InterfacePrincipale;
 import com.compagnie.aerienne.interface_graphique.parts.SouthPanel;
 import com.compagnie.aerienne.modele.Vol;
@@ -14,10 +15,10 @@ import java.util.Objects;
 
 public class FormulaireVol extends JDialog {
 
-    private final JLabel spinner;
     private final Vol vol;
-    private JTextField destination;
     private JTextField dated;
+    private final JLabel spinner;
+    private JTextField destination;
     private JTextField nbrReservations;
     private final InterfacePrincipale ip;
     JLabel errorMessage;
@@ -37,7 +38,7 @@ public class FormulaireVol extends JDialog {
         setLayout(new BorderLayout());
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         this.errorMessage = new JLabel();
-        errorMessage.setForeground(new Color(255, 0, 0));
+        errorMessage.setForeground(AppColors.BG_DANGER);
         topPanel.add(errorMessage);
         topPanel.add(spinner);
 
