@@ -2,7 +2,7 @@ package com.compagnie.aerienne.interface_graphique;
 
 import com.compagnie.aerienne.Application;
 import com.compagnie.aerienne.interface_graphique.composants.FormulaireVol;
-import com.compagnie.aerienne.interface_graphique.composants.VolTable;
+import com.compagnie.aerienne.interface_graphique.composants.table.VolTable;
 import com.compagnie.aerienne.interface_graphique.parts.NorthPanel;
 import com.compagnie.aerienne.interface_graphique.parts.SouthPanel;
 import com.compagnie.aerienne.interface_graphique.parts.WestPanel;
