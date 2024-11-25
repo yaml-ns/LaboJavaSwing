@@ -11,6 +11,7 @@ import com.compagnie.aerienne.service.GestionVolService;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
@@ -25,6 +26,8 @@ public class VolTable{
         this.tableModel = new VolTableModel(liste);
         this.table = new JTable(tableModel);
 
+        TableRowSorter<VolTableModel> sorter = new TableRowSorter<>(tableModel);
+        this.table.setRowSorter(sorter);
         ActionButtonEditor tableCellEditor = new ActionButtonEditor();
         ActionButtonRendrer actionButtonRendrer = new ActionButtonRendrer();
 
