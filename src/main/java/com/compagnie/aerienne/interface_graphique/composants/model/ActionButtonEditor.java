@@ -16,7 +16,7 @@ public class ActionButtonEditor extends AbstractCellEditor implements TableCellE
     private ActionListener onDeleteListener;
 
     public ActionButtonEditor(){
-        ToolTipManager.sharedInstance().setEnabled(true);
+
         panel.setLayout(new FlowLayout(FlowLayout.CENTER,2,2));
         Dimension btnDimension = new Dimension(25,25);
         JButton btnUpdate = new JButton();

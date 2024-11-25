@@ -17,9 +17,8 @@ public class FilterForm extends JPanel {
     JTextField resevField = new JTextField(10);
 
     JButton resetButton;
-    public FilterForm(TableModel tableModel){
+    public FilterForm(TableRowSorter<TableModel> sorter){
 
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableModel);
         initForm();
 
         DocumentListener listener = new FilterListener(
@@ -29,7 +28,6 @@ public class FilterForm extends JPanel {
                 datedField,
                 resevField
         );
-
 
         idVolField.getDocument().addDocumentListener(listener);
         destinationField.getDocument().addDocumentListener(listener);
@@ -53,7 +51,7 @@ public class FilterForm extends JPanel {
                 new EmptyBorder(10,10,10,10)
         ));
         resetButton = new JButton("Réinitialiser");
-
+        resetButton.setBackground(new Color(28, 28, 51));
         idVolField.setBackground(new Color(28, 28, 51));
         destinationField.setBackground(new Color(28, 28, 51));
         datedField.setBackground(new Color(28, 28, 51));

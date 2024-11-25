@@ -33,64 +33,17 @@ public class VolTable{
         this.volManager = new GestionVolService();
         this.tableModel = new VolTableModel(liste);
         this.table = new JTable(this.tableModel);
-        this.filters = new FilterForm(this.tableModel);
         this.sorter = new TableRowSorter<>(tableModel);
+        this.filters = new FilterForm(this.sorter);
 
         initTable();
 
-        ActionButtonEditor tableCellEditor = new ActionButtonEditor();
-        ActionButtonRendrer actionButtonRendrer = new ActionButtonRendrer();
-
-        this.table.getColumnModel().getColumn(4).setCellEditor(tableCellEditor);
-        this.table.getColumnModel().getColumn(4).setCellRenderer(actionButtonRendrer);
-
-        tableCellEditor.setOnUpdateListener(e->{
-            int row = table.getSelectedRow();
-            Vol vol = tableModel.getVolAt(row);
-            Window w = SwingUtilities.getWindowAncestor(table);
-
-            if (w instanceof JFrame){
-                InterfacePrincipale ip = (InterfacePrincipale) w;
-                FormulaireVol formulaire = new FormulaireVol(ip,vol);
-                formulaire.setVisible(true);
-            }
-
-
-        });
-
-        tableCellEditor.setOnDeleteListener(e -> {
-            int row = table.getSelectedRow();
-            Vol vol = tableModel.getVolAt(row);
-            int confirmation = JOptionPane.showConfirmDialog(
-                    null,
-                    """
-                    Voulez vous vraiment supprimer le vol %d
-                    à destination de %s?""".formatted(
-                                    vol.getIdVol(),
-                                    vol.getDestination()
-                    )
-            );
-
-            if (confirmation == 0){
-                try {
-                    volManager.deleteVol(vol.getIdVol());
-                    List<Vol> nouvelleListe = volManager.getAll();
-                    this.updateData(nouvelleListe);
-                    InfoPanel.getInstance().setOperationResult("Vol supprimé avec succès", InfoPanel.messageType.SUCCESS);
-                    SouthPanel.getInstance().setTotalVols(nouvelleListe.size());
-                } catch (IOException ex) {
-                    InfoPanel.getInstance().setOperationResult(
-                            "Une erreur s'est produite pendant l'opération!",
-                            InfoPanel.messageType.ERROR);
-
-                }
-
-            }
-
-        });
+        performActions();
 
 
     }
+
+
 
     public JPanel getTable(){
 
@@ -123,6 +76,64 @@ public class VolTable{
         header.setBackground(new Color(17, 17, 33));
     }
 
+    private void performActions() {
+        ActionButtonEditor tableCellEditor = new ActionButtonEditor();
+        ActionButtonRendrer actionButtonRendrer = new ActionButtonRendrer();
+
+        this.table.getColumnModel().getColumn(4).setCellEditor(tableCellEditor);
+        this.table.getColumnModel().getColumn(4).setCellRenderer(actionButtonRendrer);
+
+        tableCellEditor.setOnUpdateListener(e->{
+            onUpdate();
+        });
+
+        tableCellEditor.setOnDeleteListener(e -> {
+            onDelete();
+        });
+    }
+    private void onUpdate(){
+        int row = table.getSelectedRow();
+        int rowIndex = table.convertRowIndexToModel(row);
+        Vol vol = tableModel.getVolAt(rowIndex);
+        Window w = SwingUtilities.getWindowAncestor(table);
+
+        if (w instanceof JFrame){
+            InterfacePrincipale ip = (InterfacePrincipale) w;
+            FormulaireVol formulaire = new FormulaireVol(ip,vol);
+            formulaire.setVisible(true);
+        }
+    }
+
+    private void onDelete(){
+        int row = table.getSelectedRow();
+        int rowIndex = table.convertRowIndexToModel(row);
+        Vol vol = tableModel.getVolAt(rowIndex);
+        int confirmation = JOptionPane.showConfirmDialog(
+                null,
+                """
+                Voulez vous vraiment supprimer le vol %d
+                à destination de %s?""".formatted(
+                        vol.getIdVol(),
+                        vol.getDestination()
+                )
+        );
+
+        if (confirmation == 0){
+            try {
+                volManager.deleteVol(vol.getIdVol());
+                List<Vol> nouvelleListe = volManager.getAll();
+                this.updateData(nouvelleListe);
+                InfoPanel.getInstance().setOperationResult("Vol supprimé avec succès", InfoPanel.messageType.SUCCESS);
+                SouthPanel.getInstance().setTotalVols(nouvelleListe.size());
+            } catch (IOException ex) {
+                InfoPanel.getInstance().setOperationResult(
+                        "Une erreur s'est produite pendant l'opération!",
+                        InfoPanel.messageType.ERROR);
+
+            }
+
+        }
+    }
     public void updateData(List<Vol> newVols) {
         tableModel.updateData(newVols);
     }
