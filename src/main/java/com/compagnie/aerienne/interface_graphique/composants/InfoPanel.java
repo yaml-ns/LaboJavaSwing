@@ -18,6 +18,7 @@ public class InfoPanel extends JPanel {
     JLabel operationResult = new JLabel();
     public InfoPanel(){
         setBackground(AppColors.BG_LIGHT);
+        setBorder(new EmptyBorder(0,0,0,0));
         add(this.operationResult,BorderLayout.CENTER);
 
     }
