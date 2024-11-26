@@ -4,15 +4,17 @@ import com.compagnie.aerienne.interface_graphique.AppColors;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class BoutonFiltrer extends JToggleButton {
 
-    ActionListener onToggleListener;
+    private int initialHeight;
+    private JPanel targetPanel;
+    private final int step = 5;
+    private final int delay = 5;
+    private Timer animationTimer;
     public BoutonFiltrer() {
         setText("Filtrer les vols");
         FlatSVGIcon FilterIcon = new FlatSVGIcon(getClass().getResource("/icons/filter.svg"));
@@ -20,15 +22,56 @@ public class BoutonFiltrer extends JToggleButton {
         setPreferredSize(new Dimension(150, 35));
         setBackground(AppColors.BG_DARK);
         setIconTextGap(10);
-        setSelected(true);
+        setSelected(false);
         addActionListener(e->{
-            if (this.onToggleListener != null){
-                this.onToggleListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "toggle"));
-            }
+            toggle();
         });
     }
 
-    public void setOnToggleListener(ActionListener onToggleListener) {
-        this.onToggleListener = onToggleListener;
+    private void toggle() {
+
+        if (targetPanel == null) {
+            throw new IllegalStateException("Le panel cible n'a pas été défini.");
+        }
+
+        if (animationTimer != null && animationTimer.isRunning()) {
+            animationTimer.stop();
+        }
+
+        boolean isExpanding = isSelected();
+
+        animationTimer = new Timer(delay, new AbstractAction() {
+            int currentHeight = targetPanel.getPreferredSize().height;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (isExpanding && currentHeight < initialHeight) {
+                    currentHeight += step;
+                } else if (!isExpanding && currentHeight > 0) {
+                    currentHeight -= step;
+                } else {
+                    ((Timer) e.getSource()).stop();
+                    if (!isExpanding) {
+                        targetPanel.setVisible(false);
+                    }
+                }
+
+                targetPanel.setPreferredSize(new Dimension(targetPanel.getWidth(), currentHeight));
+                targetPanel.revalidate();
+            }
+        });
+
+        if (isExpanding) {
+            targetPanel.setVisible(true);
+        }
+
+        animationTimer.start();
     }
+
+   public void setTargetPanel(JPanel target){
+        targetPanel = target;
+        initialHeight = target.getPreferredSize().height;
+        targetPanel.setVisible(false);
+        targetPanel.setPreferredSize(new Dimension(0, 0));
+   }
 }

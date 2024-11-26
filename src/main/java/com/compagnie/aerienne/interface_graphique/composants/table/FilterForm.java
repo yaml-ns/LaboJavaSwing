@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 public class FilterForm extends JPanel {
 
     JPanel formContainer;
+    private int initialHeight;
+    private int initialWidth;
     JTextField idVolField = new JTextField(10);
     JTextField destinationField = new JTextField(10);
     JTextField datedField = new JTextField(10);
@@ -37,6 +39,7 @@ public class FilterForm extends JPanel {
         add(header,BorderLayout.NORTH);
         initForm();
 
+        btnFilter.setTargetPanel(formContainer);
 
         DocumentListener listener = new FilterListener(
                 sorter,
@@ -58,13 +61,7 @@ public class FilterForm extends JPanel {
             resevField.setText("");
         });
 
-        btnFilter.setOnToggleListener(e -> {
-            if (btnFilter.isSelected()){
-                formContainer.setVisible(false);
-            }else{
-                formContainer.setVisible(true);
-            }
-        });
+
 
     }
 
