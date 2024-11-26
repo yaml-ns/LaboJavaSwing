@@ -6,14 +6,13 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class BoutonFiltrer extends JToggleButton {
 
     private int initialHeight;
     private JPanel targetPanel;
-    private final int step = 5;
-    private final int delay = 5;
+    private int step = 5;
+    private int delay = 5;
     private Timer animationTimer;
     public BoutonFiltrer() {
         setText("Filtrer les vols");
@@ -74,4 +73,12 @@ public class BoutonFiltrer extends JToggleButton {
         targetPanel.setVisible(false);
         targetPanel.setPreferredSize(new Dimension(0, 0));
    }
+
+    public void setStep(int step) {
+        this.step = step;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
 }
