@@ -11,14 +11,10 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class FilterForm extends JPanel {
 
     JPanel formContainer;
-    private int initialHeight;
-    private int initialWidth;
     JTextField idVolField = new JTextField(10);
     JTextField destinationField = new JTextField(10);
     JTextField datedField = new JTextField(10);

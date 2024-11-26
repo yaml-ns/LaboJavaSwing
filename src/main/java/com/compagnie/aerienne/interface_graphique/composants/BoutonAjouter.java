@@ -2,10 +2,7 @@ package com.compagnie.aerienne.interface_graphique.composants;
 
 import com.compagnie.aerienne.interface_graphique.AppColors;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 public class BoutonAjouter extends JButton {
