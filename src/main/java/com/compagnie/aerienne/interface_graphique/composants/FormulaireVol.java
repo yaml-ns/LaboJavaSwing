@@ -38,7 +38,7 @@ public class FormulaireVol extends JDialog {
         setLayout(new BorderLayout());
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         this.errorMessage = new JLabel();
-        errorMessage.setForeground(AppColors.BG_DANGER);
+        errorMessage.setForeground(AppColors.FG_DANGER);
         topPanel.add(errorMessage);
         topPanel.add(spinner);
 

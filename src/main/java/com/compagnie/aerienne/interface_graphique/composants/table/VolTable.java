@@ -2,6 +2,7 @@ package com.compagnie.aerienne.interface_graphique.composants.table;
 
 import com.compagnie.aerienne.interface_graphique.AppColors;
 import com.compagnie.aerienne.interface_graphique.InterfacePrincipale;
+import com.compagnie.aerienne.interface_graphique.composants.FormulaireReservationVol;
 import com.compagnie.aerienne.interface_graphique.composants.FormulaireVol;
 import com.compagnie.aerienne.interface_graphique.composants.InfoPanel;
 import com.compagnie.aerienne.interface_graphique.composants.model.ActionButtonEditor;
@@ -65,7 +66,7 @@ public class VolTable{
     private void initTable(){
 
         this.table.setRowSorter(sorter);
-        this.table.getColumnModel().getColumn(4).setMaxWidth(70);
+//        this.table.getColumnModel().getColumn(4).setMaxWidth(130);
         this.table.setRowHeight(30);
         this.table.setShowGrid(false);
         this.table.setShowVerticalLines(false);
@@ -86,6 +87,11 @@ public class VolTable{
 
         tableCellEditor.setOnUpdateListener(e->{
             onUpdate();
+        });
+
+        tableCellEditor.setOnReserveListener(e -> {
+            System.out.println("Réserver");
+            onReserve();
         });
 
         tableCellEditor.setOnDeleteListener(e -> {
@@ -135,6 +141,24 @@ public class VolTable{
 
         }
     }
+
+
+    private void onReserve(){
+        System.out.println("On reserve");
+        int row = table.getSelectedRow();
+        System.out.println(row);
+        int rowIndex = table.convertRowIndexToModel(row);
+        Vol vol = tableModel.getVolAt(rowIndex);
+        Window w = SwingUtilities.getWindowAncestor(table);
+
+        if (w instanceof JFrame){
+            InterfacePrincipale ip = (InterfacePrincipale) w;
+            FormulaireReservationVol formulaire = new FormulaireReservationVol(ip,vol);
+            formulaire.setVisible(true);
+        }
+    }
+
+
     public void updateData(List<Vol> newVols) {
         tableModel.updateData(newVols);
     }
