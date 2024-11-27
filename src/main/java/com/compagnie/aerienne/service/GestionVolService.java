@@ -60,4 +60,13 @@ public class GestionVolService {
         return id + 1;
     }
 
+    public void addReservation(Vol vol, int reservations) throws IOException {
+        for (Vol v : listeVols){
+            if (v.getIdVol() == vol.getIdVol()){
+                v.setReserv(v.getReserv() + reservations);
+                DataPersister.write(listeVols);
+                break;
+            }
+        }
+    }
 }

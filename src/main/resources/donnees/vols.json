@@ -7,12 +7,12 @@
   "idVol" : 2056,
   "destination" : "Paris",
   "dated" : "25/11/2025",
-  "reserv" : 290
+  "reserv" : 300
 }, {
   "idVol" : 3012,
   "destination" : "Londres",
   "dated" : "01/12/2024",
-  "reserv" : 200
+  "reserv" : 210
 }, {
   "idVol" : 4125,
   "destination" : "New York",

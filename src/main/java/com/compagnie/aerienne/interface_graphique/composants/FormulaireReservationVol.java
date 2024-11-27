@@ -4,6 +4,7 @@ import com.compagnie.aerienne.Application;
 import com.compagnie.aerienne.interface_graphique.AppColors;
 import com.compagnie.aerienne.interface_graphique.InterfacePrincipale;
 import com.compagnie.aerienne.modele.Vol;
+import com.compagnie.aerienne.service.GestionVolService;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -128,47 +129,42 @@ public class FormulaireReservationVol extends JDialog {
 
     private void process(Vol vol){
 
+        if (nbrReservations.getText().isBlank()){
+            this.errorMessage.setText("Veuillez saisir un nombre valide.");
+        } else {
+            try {
+                int reservations = Integer.parseInt(nbrReservations.getText());
+                if (reservations > (400 - vol.getReserv())){
+                    this.errorMessage.setText("Places disponibles insuffisantes pour ce nombre de réservation");
+                }else{
+                    this.errorMessage.setText("");
+                    try {
+                        GestionVolService volManager = new GestionVolService();
+                        volManager.addReservation(vol, reservations);
+                        String infoMessage= """
+                                           %d réservations confirmées pour le vol %d
+                                            à destination de %s
+                                            """.formatted(
+                                                    reservations,
+                                                    vol.getIdVol(),
+                                                    vol.getDestination()
+                        );
 
+                        ip.rafraichirTable(volManager.getAll());
+                        this.resetForm();
+                        dispose();
+                        InfoPanel.getInstance().setOperationResult(infoMessage, InfoPanel.messageType.SUCCESS);
+                    }catch (Exception exception){
+                        errorMessage.setText("Une erreur s'est produite pendant la réservation");
+                    }
+            }
+        }catch (NumberFormatException e){
+                System.out.println(e.getMessage());
+            }
 
-        if (Integer.parseInt(nbrReservations.getText())> (400 - vol.getReserv())){
-            this.errorMessage.setText("Places disponibles insuffisantes pour ce nombre de réservation");
-            spinner.setVisible(false);
-        }else{
-            spinner.setVisible(false);
-            this.errorMessage.setText("");
-//            try {
-//                GestionVolService volManager = new GestionVolService();
-//                String infoMessage;
-//                if (validatedVol.getIdVol() == 0){
-//                    validatedVol.setIdVol(volManager.getNextId());
-//                    volManager.addVol(validatedVol);
-//                    infoMessage = """
-//                                       Le Vol %d à destination de %s a été ajouté avec succès !"""
-//                            .formatted(
-//                            validatedVol.getIdVol(),
-//                            validatedVol.getDestination()
-//                    );
-//
-//                    SouthPanel.getInstance().setTotalVols(volManager.getAll().size());
-//
-//                }else{
-//                    volManager.updateVol(validatedVol);
-//                    infoMessage = """
-//                                       Le Vol %d à destination de %s a été modifié avec succès !"""
-//                            .formatted(
-//                            validatedVol.getIdVol(),
-//                            validatedVol.getDestination()
-//                    );
-//                }
-//                ip.rafraichirTable(volManager.getAll());
-//                this.resetForm();
-//                dispose();
-//                InfoPanel.getInstance().setOperationResult(infoMessage, InfoPanel.messageType.SUCCESS);
-//            }catch (Exception exception){
-//                errorMessage.setText("Une erreur s'est produite pendant l'ajout.");
-//            }
 
         }
+        spinner.setVisible(false);
     }
 
 
