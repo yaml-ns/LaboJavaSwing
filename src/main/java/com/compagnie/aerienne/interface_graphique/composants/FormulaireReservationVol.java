@@ -12,14 +12,14 @@ import java.awt.*;
 import java.util.Objects;
 
 public class FormulaireReservationVol extends JDialog {
-
     private final Vol vol;
     private final JLabel spinner;
     private JTextField nbrReservations;
     private final InterfacePrincipale ip;
-    JLabel errorMessage;
-    public FormulaireReservationVol(InterfacePrincipale ip, Vol vol){
+    private JLabel errorMessage;
+    private JPanel errorPanel;
 
+    public FormulaireReservationVol(InterfacePrincipale ip, Vol vol) {
         super(ip, ModalityType.APPLICATION_MODAL);
         this.ip = ip;
         this.vol = vol;
@@ -29,20 +29,18 @@ public class FormulaireReservationVol extends JDialog {
         setTitle("Réservation de vol");
         setIconImage(new ImageIcon(Objects.requireNonNull(Application.class
                 .getResource("/icons/air_relax.png")))
-                .getImage()
-        );
+                .getImage());
         setLayout(new BorderLayout());
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        this.errorMessage = new JLabel();
+
+
+        errorPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        errorMessage = new JLabel();
         errorMessage.setForeground(AppColors.FG_DANGER);
-        topPanel.add(errorMessage);
-        topPanel.add(spinner);
+        errorPanel.add(errorMessage);
+        add(errorPanel, BorderLayout.NORTH);
 
-        add(topPanel, BorderLayout.NORTH);
         JPanel form = new JPanel(new GridBagLayout());
-
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
         setFields(form);
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -50,9 +48,8 @@ public class FormulaireReservationVol extends JDialog {
         JButton btnEnregistrer = new BoutonEnregistrer();
         JButton btnReset = new JButton("Effacer");
 
-        btnReset.setPreferredSize(new Dimension(100,25));
-        btnReset.setBorder(new LineBorder(new Color(0,0,0,0),1));
-
+        btnReset.setPreferredSize(new Dimension(100, 25));
+        btnReset.setBorder(new LineBorder(new Color(0, 0, 0, 0), 1));
 
         btnEnregistrer.addActionListener(e -> {
             spinner.setVisible(true);
@@ -60,29 +57,27 @@ public class FormulaireReservationVol extends JDialog {
             process(vol);
         });
 
-        if (vol.getReserv() == 400 ){
+        if (vol.getReserv() == 400) {
             this.nbrReservations.setEnabled(false);
-            this.errorMessage.setText("Désolé ! Ce vol est complet. Veuillez choisir un autre.");
+            setErrorMessage("Désolé ! Ce vol est complet. Veuillez choisir un autre.");
             spinner.setVisible(false);
             btnEnregistrer.setEnabled(false);
             btnReset.setEnabled(false);
         }
-        btnReset.addActionListener(e -> this.resetForm());
+        btnReset.addActionListener(e -> resetForm());
 
         bottomPanel.add(btnEnregistrer);
         bottomPanel.add(btnReset);
 
         add(bottomPanel, BorderLayout.SOUTH);
+        add(form, BorderLayout.CENTER);
 
-        setMinimumSize(new Dimension(400,250));
+        setMinimumSize(new Dimension(400, 300));
         pack();
         setLocationRelativeTo(ip);
-
     }
 
-
     private void setFields(JPanel form) {
-
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
         gbc.gridx = 0;
@@ -97,17 +92,14 @@ public class FormulaireReservationVol extends JDialog {
                        <tr><td>Res. Actuelles: </td><td> %d</td></tr>
                        <tr><td>Place dispos: </td><td> %d </td></tr>
                        <br>
-                      
                        Nombre de place à réserver :
                        </html>
-                       """
-                .formatted(
+                       """.formatted(
                 vol.getIdVol(),
                 vol.getDestination(),
                 vol.getDated().toString(),
                 vol.getReserv(),
-                400 - vol.getReserv()
-                );
+                400 - vol.getReserv());
 
         JLabel nbrReservationLabel = new JLabel(label);
         form.add(nbrReservationLabel, gbc);
@@ -115,59 +107,53 @@ public class FormulaireReservationVol extends JDialog {
         gbc.gridy = 1;
         gbc.gridx = 0;
 
-        this.nbrReservations= new JTextField(20);
+        this.nbrReservations = new JTextField(20);
         form.add(this.nbrReservations, gbc);
-        add(form,BorderLayout.CENTER);
-
     }
 
-    private void resetForm(){
+    private void resetForm() {
         this.nbrReservations.setText("");
-        this.errorMessage.setText("");
+        setErrorMessage("");
     }
 
+    private void setErrorMessage(String message) {
+        errorMessage.setText(message);
+        errorPanel.setVisible(!message.isEmpty());
+    }
 
-    private void process(Vol vol){
-
-        if (nbrReservations.getText().isBlank()){
-            this.errorMessage.setText("Veuillez saisir un nombre valide.");
+    private void process(Vol vol) {
+        if (nbrReservations.getText().isBlank()) {
+            setErrorMessage("Veuillez saisir un nombre valide.");
         } else {
             try {
                 int reservations = Integer.parseInt(nbrReservations.getText());
-                if (reservations > (400 - vol.getReserv())){
-                    this.errorMessage.setText("Places disponibles insuffisantes pour ce nombre de réservation");
-                }else{
-                    this.errorMessage.setText("");
+                if (reservations > (400 - vol.getReserv())) {
+                    setErrorMessage("Places disponibles insuffisantes pour ce nombre de réservation");
+                } else {
+                    setErrorMessage("");
                     try {
                         GestionVolService volManager = new GestionVolService();
                         volManager.addReservation(vol, reservations);
-                        String infoMessage= """
+                        String infoMessage = """
                                            %d réservations confirmées pour le vol %d
                                             à destination de %s
                                             """.formatted(
-                                                    reservations,
-                                                    vol.getIdVol(),
-                                                    vol.getDestination()
-                        );
+                                reservations,
+                                vol.getIdVol(),
+                                vol.getDestination());
 
                         ip.rafraichirTable(volManager.getAll());
-                        this.resetForm();
+                        resetForm();
                         dispose();
                         InfoPanel.getInstance().setOperationResult(infoMessage, InfoPanel.messageType.SUCCESS);
-                    }catch (Exception exception){
-                        errorMessage.setText("Une erreur s'est produite pendant la réservation");
+                    } catch (Exception exception) {
+                        setErrorMessage("Une erreur s'est produite pendant la réservation");
                     }
-            }
-        }catch (NumberFormatException e){
+                }
+            } catch (NumberFormatException e) {
                 System.out.println(e.getMessage());
             }
-
-
         }
         spinner.setVisible(false);
     }
-
-
-
-
 }
